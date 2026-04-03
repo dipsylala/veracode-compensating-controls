@@ -12,14 +12,14 @@ An [Agent Skills](https://agentskills.io) skill that helps developers respond to
 ### Key distinction
 
 | Term | Meaning |
-|---|---|
+| --- | --- |
 | **Fixed** | Root cause eliminated. SAST would no longer report it. Risk is zero. |
 | **Mitigated** | Flaw remains in the code and SAST still reports it, but compensating controls reduce the risk to an acceptable level. **This skill is for mitigation.** |
 
 ## Supported CWEs
 
 | CWE | Title |
-|---|---|
+| --- | --- |
 | [CWE-80](./CWE-80.md) | Basic XSS — Improper Neutralization of Script-Related HTML Tags |
 | [CWE-89](./CWE-89.md) | SQL Injection — Improper Neutralization of Special Elements in SQL |
 
