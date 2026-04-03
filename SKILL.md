@@ -15,6 +15,15 @@ description: Look up compensating controls and draft Veracode "Mitigated by Desi
 
 > If a developer says they have "fixed" the issue but Veracode still flags it, they may have applied a control the scanner cannot trace. Walk them through the controls below — the fix may actually be a mitigation.
 
+### ⚠️ CRITICAL: Non-Negotiable Controls
+
+**The compensating controls documented for each CWE are the ONLY acceptable mitigations.** The developer has exactly two options:
+
+1. **Fix the flaw** so that Veracode no longer reports it, OR
+2. **Adopt one or more of the specific compensating controls** listed for that CWE
+
+There is no third option. Custom or alternative controls not listed in the CWE reference files will not be accepted. If the developer cannot confirm any of the documented controls are in place, they must remediate the root cause.
+
 ## Quick start
 
 Given a CWE ID from a Veracode scan:
@@ -42,6 +51,8 @@ Show all compensating controls from the reference file. For each, include:
 - What it is (one sentence)
 - How the developer can confirm it is in place
 
+**Emphasize to the developer:** These are the ONLY acceptable compensating controls for this CWE. If none of these controls are in place, the flaw must be fixed at the code level.
+
 Then ask: **"Which of these controls are already in place in your application?"**
 
 ### Step 4 — Generate mitigation text
@@ -50,9 +61,10 @@ Use the confirmed controls to produce a **Mitigated by Design** statement ready 
 
 Follow these rules:
 - Only include controls the developer has confirmed
+- Only use controls listed in the CWE reference file — no custom or alternative controls will be accepted
 - Be specific — include method names, framework names, or other details the developer supplies
 - Do not claim risk is zero — mitigation lowers risk to an acceptable level, it does not eliminate it
-- If no controls can be confirmed, advise the developer to remediate the root cause; a mitigation cannot be justified
+- **If no documented controls can be confirmed, a mitigation cannot be justified. The developer MUST remediate the root cause. There is no alternative.**
 
 **Mitigation text structure:**
 ```
@@ -68,7 +80,9 @@ The flaw remains present in the code but the controls described above reduce the
 ## Notes
 
 - Mitigation type target: **Mitigated by Design**
+- **The compensating controls for each CWE are non-negotiable** — developers must either fix the flaw or adopt one of the documented controls
 - A mitigation does not fix the flaw — it demonstrates that risk has been reduced to an acceptable level despite the flaw remaining
 - If the flagged value is not user-controlled, this is still submitted as a **Mitigated by Design** mitigation; the mitigation text should explain the full data-flow proving the value cannot be influenced by an attacker
 - Multiple layered controls produce a stronger case — include all that the developer can confirm
 - Avoid vague statements; Veracode reviewers will reject unsupported claims
+- Custom or alternative controls not listed in the CWE reference file will not be accepted
