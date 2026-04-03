@@ -2,12 +2,16 @@
 
 An [Agent Skills](https://agentskills.io) skill that helps developers respond to Veracode SAST findings. Given a CWE ID, it walks through applicable compensating controls and generates a ready-to-paste **Mitigated by Design** statement for the Veracode portal.
 
+These are designed to be expanded and changed on a per security team basis. For example, some teams dictate that data coming from a configuration file is acceptable risk. Others don't, depending on the risk profile. This is a way of helping guide the team to an appropriate outcome.
+
 ## What it does
 
 1. You provide a CWE ID from a Veracode finding
 2. The agent loads the relevant reference file (`CWE-<id>.md`) and presents the controls that apply
 3. For each control it explains what it is and how to confirm it is in place
 4. Once you confirm which controls exist in your application, the agent drafts the mitigation text
+
+If you give it more context, it can provide an opinion on what you have, depending on the LLM.
 
 ### Key distinction
 
