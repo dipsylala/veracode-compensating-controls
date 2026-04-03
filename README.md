@@ -4,6 +4,8 @@ An [Agent Skills](https://agentskills.io) skill that helps developers respond to
 
 These are designed to be expanded and changed on a per security team basis. For example, some teams dictate that data coming from a configuration file is acceptable risk. Others don't, depending on the risk profile. This is a way of helping guide the team to an appropriate outcome.
 
+With minimal changes this could apply to any tool that generates flaws in an application. This isn't necessarily about removing the flaw entirely, but making sure that the development teams adhere to best practices with the security team, and to allow them to communicate what would be required. In Veracode this would be a Mitigation by Design. In Snyk or Semgrep, it's an 'Ignore' but with an appropriate message.
+
 ## What it does
 
 1. You provide a CWE ID from a Veracode finding
