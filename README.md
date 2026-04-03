@@ -49,7 +49,7 @@ git clone https://github.com/dipsylala/veracode-compensating-controls .agents/sk
 ### Option B — Client-specific paths
 
 | Client | User-level path |
-|---|---|
+| --- | --- |
 | Claude Code / Claude desktop | `~/.claude/skills/veracode-compensating-controls` |
 | VS Code (GitHub Copilot) | `~/.vscode/skills/veracode-compensating-controls` |
 | Cursor | `~/.cursor/skills/veracode-compensating-controls` |
