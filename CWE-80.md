@@ -60,32 +60,34 @@ Session cookies are marked `HttpOnly`, ensuring that even if a script were injec
 
 ## Mitigation Text Templates
 
+These are typically 'Mitigate by Design' in Veracode.
+
 ### Template engine auto-escaping (false positive)
 
 ```text
-This finding is considered a false positive in the context of this application. The flagged value is rendered exclusively through [template engine, e.g. "Razor Views" / "Thymeleaf th:text bindings" / "Angular interpolation {{ }}"], which applies HTML entity encoding to all variable output by default. Veracode identifies the underlying string as a potential XSS sink but cannot statically verify the encoding applied by the template engine at runtime. The value is never passed to a raw output directive (e.g. Html.Raw, innerHTML, | safe filter). The risk of XSS exploitation through this code path is negligible.
+The flagged value is rendered exclusively through [template engine, e.g. "Razor Views" / "Thymeleaf th:text bindings" / "Angular interpolation {{ }}"], which applies HTML entity encoding to all variable output by default. Veracode identifies the underlying string as a potential XSS sink but cannot statically verify the encoding applied by the template engine at runtime. The value is never passed to a raw output directive (e.g. Html.Raw, innerHTML, | safe filter). The risk of XSS exploitation through this code path is negligible.
 ```
 
 ### Allow-list validation upstream
 
 ```text
-The risk from this CWE-80 finding is mitigated by design. Input accepted at [entry point, e.g. "the POST /profile endpoint"] is validated against a strict allow-list of permitted values before storage. The validation logic [describe briefly, e.g. "restricts the field to alphanumeric characters and spaces using the regex ^[a-zA-Z0-9 ]{1,100}$"]. Any value containing characters outside this set is rejected with a 400 response and never persisted. By the time the value reaches the rendering layer, it is structurally incapable of containing script tags or event handler syntax. The residual risk of XSS exploitation through this code path is negligible.
+Input accepted at [entry point, e.g. "the POST /profile endpoint"] is validated against a strict allow-list of permitted values before storage. The validation logic [describe briefly, e.g. "restricts the field to alphanumeric characters and spaces using the regex ^[a-zA-Z0-9 ]{1,100}$"]. Any value containing characters outside this set is rejected with a 400 response and never persisted. By the time the value reaches the rendering layer, it is structurally incapable of containing script tags or event handler syntax. The residual risk of XSS exploitation through this code path is negligible.
 ```
 
 ### HTML sanitisation library
 
 ```text
-The risk from this CWE-80 finding is mitigated by design. This endpoint intentionally accepts and renders rich HTML content (e.g. from [a WYSIWYG editor]). Before output, all content is processed by [library name and version, e.g. "DOMPurify 3.1" / "OWASP Java HTML Sanitizer (policy: formatting only)"], which strips all disallowed tags — including script, iframe, and on* event handler attributes — while preserving safe formatting markup. The sanitiser is kept current and the policy does not permit script execution. The residual risk of XSS exploitation through this code path is negligible.
+This endpoint intentionally accepts and renders rich HTML content (e.g. from [a WYSIWYG editor]). Before output, all content is processed by [library name and version, e.g. "DOMPurify 3.1" / "OWASP Java HTML Sanitizer (policy: formatting only)"], which strips all disallowed tags — including script, iframe, and on* event handler attributes — while preserving safe formatting markup. The sanitiser is kept current and the policy does not permit script execution. The residual risk of XSS exploitation through this code path is negligible.
 ```
 
-### Value not user-controlled (false positive)
+### Value from a trusted source
 
 ```text
-This finding is a false positive. The value identified by Veracode as a potential XSS sink originates from [describe source, e.g. "a hard-coded application constant" / "a server-generated integer ID" / "a value read from application configuration at startup"]. This value is not derived from any HTTP request parameter, header, body, cookie, or other external input and cannot be influenced by an attacker. The finding does not represent an exploitable XSS vulnerability.
+The value identified by Veracode as a potential XSS sink originates from [describe source, e.g. "a secure controlled property file" / "a server-generated integer ID"]. This source is controlled by [describe security controls for the trusted source]. This value is not derived from any HTTP request parameter, header, body, cookie, or other external input and cannot be directly influenced by an attacker. The finding does not represent an exploitable XSS vulnerability.
 ```
 
 ### Allow-list + CSP + HTTPOnly (layered, strongest case)
 
 ```text
-The risk from this CWE-80 finding is mitigated by design through multiple layered controls: (1) Allow-list validation — input is restricted to [describe constraint] before storage, preventing script-bearing values from being persisted; (2) Content Security Policy — the application enforces a CSP header with no 'unsafe-inline' in script-src, so the browser will not execute inline scripts even if injection were to occur; (3) HTTPOnly session cookies — session tokens cannot be stolen via document.cookie. Together, these controls reduce the residual risk of successful XSS exploitation to an acceptable level.
+The risk from this CWE-80 finding is lowered through multiple layered controls: (1) Allow-list validation — input is restricted to [describe constraint] before storage, preventing script-bearing values from being persisted; (2) Content Security Policy — the application enforces a CSP header with no 'unsafe-inline' in script-src, so the browser will not execute inline scripts even if injection were to occur; (3) HTTPOnly session cookies — session tokens cannot be stolen via document.cookie. Together, these controls reduce the residual risk of successful XSS exploitation to an acceptable level.
 ```
