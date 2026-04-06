@@ -44,26 +44,28 @@ The application's database account holds only the minimum permissions required f
 
 ## Mitigation Text Templates
 
+These are typically 'Mitigate by Design' in Veracode.
+
 ### Allow-list for non-parameterisable identifier
 
 ```text
-The risk from this CWE-89 finding is mitigated by design. The flagged code path constructs a SQL query using a string value for [table name / column name / ORDER BY target], which cannot be supplied as a bind parameter in SQL. Before the query is constructed, the value is validated against a hard-coded allow-list of permitted identifiers: [list the allowed values, e.g. "column names: 'name', 'created_date', 'status'"]. Any value not present in this list is rejected with [describe response, e.g. "a 400 Bad Request"] and the query is never executed. User input cannot introduce arbitrary SQL identifiers through this code path. The residual risk of SQL injection exploitation is acceptably low.
+The flagged code path constructs a SQL query using a string value for [table name / column name / ORDER BY target], which cannot be supplied as a bind parameter in SQL. Before the query is constructed, the value is validated against a hard-coded allow-list of permitted identifiers: [list the allowed values, e.g. "column names: 'name', 'created_date', 'status'"]. Any value not present in this list is rejected with [describe response, e.g. "a 400 Bad Request"] and the query is never executed. User input cannot introduce arbitrary SQL identifiers through this code path. The residual risk of SQL injection exploitation is acceptably low.
 ```
 
 ### SQL from configuration file
 
 ```text
-The risk from this CWE-89 finding is mitigated by design. The SQL statement executed on this code path is not constructed dynamically from user input — it is a pre-defined template loaded from [config file/resource, e.g. "the MyBatis mapper XML at resources/mappers/OrderMapper.xml" / "the application.properties query definition"]. The query structure is fixed at deployment time and cannot be modified by an attacker. User-supplied values are bound only as typed parameters to this template and are never concatenated into the SQL string. The scanner identifies the query execution call but cannot trace that the SQL itself originates from a trusted configuration source. The residual risk of SQL injection exploitation through this code path is acceptably low.
+The SQL statement executed on this code path is not constructed dynamically from user input — it is a pre-defined template loaded from [config file/resource, e.g. "the MyBatis mapper XML at resources/mappers/OrderMapper.xml" / "the application.properties query definition"]. The query structure is fixed at deployment time and cannot be modified by an attacker. User-supplied values are bound only as typed parameters to this template and are never concatenated into the SQL string. The scanner identifies the query execution call but cannot trace that the SQL itself originates from a trusted configuration source. The residual risk of SQL injection exploitation through this code path is acceptably low.
 ```
 
 ### Value not user-controlled
 
 ```text
-The risk from this CWE-89 finding is mitigated by design. The value concatenated into the SQL query is not derived from user input. It originates from [describe source, e.g. "a hard-coded application constant" / "a server-generated UUID assigned during session initialisation" / "the authenticated user's internal account ID read from the server-side session"]. This value cannot be influenced by an external attacker. The scanner identifies the string concatenation pattern but cannot statically verify that the source is not user-controlled. The residual risk of SQL injection exploitation through this code path is acceptably low.
+The value concatenated into the SQL query is not derived from user input and originates from [describe source, e.g. "a hard-coded application constant" / "a server-generated UUID assigned during session initialisation"] and is under [describe security controls for the trusted source]. This value cannot directly be influenced by an external attacker. The scanner identifies the string concatenation pattern but cannot statically verify that the controls around the source.
 ```
 
 ### Allow-list + least-privilege (layered)
 
 ```text
-The risk from this CWE-89 finding is mitigated by design through two layered controls: (1) Allow-list validation — the [table/column] name used in the query is validated against a hard-coded set of permitted values [list them] before the query is constructed; any value not on this list is rejected; (2) Least-privilege database account — the application database user is restricted to [list permissions, e.g. "SELECT on the Reporting schema only"] with no DDL rights or access to other schemas, limiting the impact of any exploitation. The residual risk of successful SQL injection through this code path is acceptably low.
+The risk from this is lowered through two layered controls: (1) Allow-list validation — the [table/column] name used in the query is validated against a hard-coded set of permitted values [list them] before the query is constructed; any value not on this list is rejected; (2) Least-privilege database account — the application database user is restricted to [list permissions, e.g. "SELECT on the Reporting schema only"] with no DDL rights or access to other schemas, limiting the impact of any exploitation. The residual risk of successful SQL injection through this code path is acceptably low.
 ```
