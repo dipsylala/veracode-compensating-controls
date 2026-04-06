@@ -68,9 +68,9 @@ Follow these rules:
 
 **Mitigation text structure:**
 ```
-The risk from this [CWE-ID] finding is mitigated by design.
+The risk from this [CWE-ID] is lowered to an acceptable level.
 
-[For each confirmed control: 2-3 sentences describing what is implemented and why it reduces exploitability.]
+[For each confirmed control: 2-3 sentences describing what is implemented and why it reduces security risk.]
 
 The flaw remains present in the code but the controls described above reduce the residual risk of successful exploitation to an acceptable level.
 ```
