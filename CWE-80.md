@@ -20,7 +20,7 @@ The application renders output through a template engine that auto-escapes all v
 
 ### 2. Allow-list Validation Upstream
 
-Input is validated against a strict allow-list of permitted values before it is stored or processed. By the time the value reaches the rendering layer, it can only contain characters or values that are safe to display — the scanner sees the output call but cannot trace the earlier validation gate.
+Ideally, context-appropriate encoding should be performed on the output. If this is not possible due to the requirement for HTML to be displayed, input is validated against a strict allow-list of permitted values before it is stored or processed. By the time the value reaches the rendering layer, it can only contain characters or values that are safe to display — the scanner sees the output call but cannot trace the earlier validation gate.
 
 **How to confirm:** Locate the validation logic that runs before the flagged value is stored or passed to the view. Confirm it uses an explicit allow-list (permitted characters, regex pattern, or enumerated set), not a block-list. Any value failing validation is rejected and never persisted or forwarded.
 
