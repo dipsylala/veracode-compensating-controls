@@ -6,6 +6,9 @@ These are designed to be expanded and changed on a per security team basis. For 
 
 With minimal changes this could apply to any tool that generates flaws in an application. This isn't necessarily about removing the flaw entirely, but making sure that the development teams adhere to best practices for the security team. Making sure all the appropriate bases been covered, and encouraging the devs to tell the security team *how*. In Veracode this would be a Mitigation by Design. In Snyk or Semgrep, it's an 'Ignore' with an appropriate message.
 
+> [!NOTE]
+> As of October 2026, I no longer have a Veracode license, so I can't verify whether the following still works as Veracode's technology stack evolves.
+
 ## What it does
 
 1. You provide a CWE ID from a Veracode finding
